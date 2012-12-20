@@ -1,4 +1,4 @@
-package common.annotations;
+package org.daneking.profile.common.annotations;
 
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;

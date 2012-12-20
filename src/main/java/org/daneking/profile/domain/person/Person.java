@@ -1,4 +1,4 @@
-package org.profile.person;
+package org.daneking.profile.domain.person;
 
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;

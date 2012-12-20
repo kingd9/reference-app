@@ -19,7 +19,7 @@
 	<!-- <context:property-placeholder location="classpath*:META-INF/config/${database}/database.properties" /> -->
 	
 	<context:annotation-config />
-	<context:component-scan base-package="org.profile" />
+	<context:component-scan base-package="org.daneking.profile" />
 
 	<import resource="classpath:/META-INF/spring/applicationContext-datasource.xml"/>
     <!-- System.out.println & System.err.println handling through SLF4J -->

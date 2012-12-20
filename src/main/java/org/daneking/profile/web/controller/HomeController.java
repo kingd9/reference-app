@@ -1,4 +1,4 @@
-package org.profile.web;
+package org.daneking.profile.web.controller;
 
 import java.text.DateFormat;
 import java.util.Date;

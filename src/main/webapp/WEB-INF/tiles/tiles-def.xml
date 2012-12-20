@@ -15,9 +15,13 @@
 
 
   
- <!-- Concrete page. To use this page, your controller must return the name "pet-tiles" -->
- <definition name="profile" extends="main">
-  <put-attribute name="content" value="/WEB-INF/views/contents/profile.jsp" />
+
+ <definition name="person" extends="main">
+  <put-attribute name="content" value="/WEB-INF/views/content/person.jsp" />
+ </definition>
+
+ <definition name="list" extends="main">
+  <put-attribute name="content" value="/WEB-INF/views/content/list.jsp" />
  </definition>
   
 </tiles-definitions>
