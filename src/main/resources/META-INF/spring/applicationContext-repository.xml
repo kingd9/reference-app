@@ -8,6 +8,6 @@
 	http://www.springframework.org/schema/data/jpa/spring-jpa.xsd">
 	
 	<!-- Root Context: defines shared resources visible to all other web components -->
-	<jpa:repositories base-package="org.profile" />
+	<jpa:repositories base-package="org.daneking.profile.repository" />
 	
 </beans>
