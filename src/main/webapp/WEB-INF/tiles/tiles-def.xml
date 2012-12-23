@@ -16,8 +16,8 @@
 
   
 
- <definition name="person" extends="main">
-  <put-attribute name="content" value="/WEB-INF/views/content/person.jsp" />
+ <definition name="add" extends="main">
+  <put-attribute name="content" value="/WEB-INF/views/content/add.jsp" />
  </definition>
 
  <definition name="list" extends="main">

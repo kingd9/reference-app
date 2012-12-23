@@ -20,7 +20,7 @@
 		</encoder>
 	</appender>
 
-	<logger name="com.daneking.profile" level="debug" />
+	<logger name="org.daneking.profile" level="debug" />
 	<logger name="org.springframework" level="info" />
 	<logger name="org.springframework.beans" level="debug" />
 
