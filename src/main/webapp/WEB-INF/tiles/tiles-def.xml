@@ -23,5 +23,9 @@
  <definition name="list" extends="main">
   <put-attribute name="content" value="/WEB-INF/views/content/list.jsp" />
  </definition>
+ 
+  <definition name="detail" extends="main">
+  <put-attribute name="content" value="/WEB-INF/views/content/detail.jsp" />
+ </definition>
   
 </tiles-definitions>

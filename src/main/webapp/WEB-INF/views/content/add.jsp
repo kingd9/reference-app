@@ -1,27 +1,15 @@
 <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form"%>
+<%@ taglib prefix="tags" tagdir="/WEB-INF/tags" %>
 
 <form:form modelAttribute="person">
+
+<%-- Need primary key to edit/create spring handles in repository  --%>
+<form:hidden path="id"/>
 	<fieldset>
 		<ol>
-			<li>
-				<form:label path="firstName">First Name</form:label>
-			</li>
-			<li>
-				<form:input path="firstName" />
-			</li>
-			<li>
-				<form:errors path="firstName" />
-			</li>
-
-			<li>
-				<form:label path="lastName">Last Name</form:label>
-			</li>
-			<li>
-				<form:input path="lastName" />
-			</li>
-			<li>
-				<form:errors path="lastName" />
-			</li>
+			<tags:fieldInput path="firstName"></tags:fieldInput>
+			<tags:fieldInput path="lastName" label="Last Name"></tags:fieldInput>
+			<tags:fieldInput path="email" label="Email"></tags:fieldInput>
 			<li><input type="submit" value="Save" /></li>
 		</ol>
 	</fieldset>

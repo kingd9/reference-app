@@ -4,6 +4,7 @@ import org.daneking.profile.common.annotations.AppService;
 import org.daneking.profile.domain.person.Person;
 import org.daneking.profile.repository.PersonRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+
 @AppService
 public class PersonService {
 	@Autowired
@@ -13,23 +14,23 @@ public class PersonService {
 		return personRepository;
 	}
 
-	public void setPersonRepository(PersonRepository personRepository) {
+	public void setPersonRepository(final PersonRepository personRepository) {
 		this.personRepository = personRepository;
 	}
 
-	public <S extends Person> S save(S entity) {
+	public <S extends Person> S save(final S entity) {
 		return personRepository.save(entity);
 	}
 
-	public <S extends Person> Iterable<S> save(Iterable<S> entities) {
+	public <S extends Person> Iterable<S> save(final Iterable<S> entities) {
 		return personRepository.save(entities);
 	}
 
-	public Person findOne(Long id) {
+	public Person findOne(final Long id) {
 		return personRepository.findOne(id);
 	}
 
-	public boolean exists(Long id) {
+	public boolean exists(final Long id) {
 		return personRepository.exists(id);
 	}
 
@@ -37,7 +38,7 @@ public class PersonService {
 		return personRepository.findAll();
 	}
 
-	public Iterable<Person> findAll(Iterable<Long> ids) {
+	public Iterable<Person> findAll(final Iterable<Long> ids) {
 		return personRepository.findAll(ids);
 	}
 
@@ -45,21 +46,20 @@ public class PersonService {
 		return personRepository.count();
 	}
 
-	public void delete(Long id) {
+	public void delete(final Long id) {
 		personRepository.delete(id);
 	}
 
-	public void delete(Person entity) {
+	public void delete(final Person entity) {
 		personRepository.delete(entity);
 	}
 
-	public void delete(Iterable<? extends Person> entities) {
+	public void delete(final Iterable<? extends Person> entities) {
 		personRepository.delete(entities);
 	}
 
 	public void deleteAll() {
 		personRepository.deleteAll();
 	}
-
 
 }

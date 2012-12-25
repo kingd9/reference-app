@@ -18,10 +18,11 @@ import org.springframework.web.bind.annotation.RequestMethod;
 @Controller
 public class PersonController {
 	private static final String REDIRECT = "redirect:";
-	private static final String PERSON_URL = "/person/";
-	private static final String PERSON_ADD_URL = "/person/add";
-	private static final String PERSON_EDIT_URL = "/person/edit";
-	private static final String PERSON_LIST_URL = "/person/list";
+	private static final String PERSON_DETAIL_URL = "/person/{id}";
+	private static final String PERSON_ADD_URL = "/person/add/";
+	private static final String PERSON_EDIT_URL = "/person/edit/";
+	private static final String PERSON_LIST_URL = "/person/list/";
+	private static final String PERSON_DELETE_URL = "/person/delete/";
 	private static final Logger LOGGER = LoggerFactory.getLogger(PersonController.class);
 
 	@Autowired
@@ -31,25 +32,25 @@ public class PersonController {
 		this.service = service;
 	}
 
-	@RequestMapping(value = PERSON_URL + "{id}", method = RequestMethod.GET)
-	public String findPerson(@PathVariable final Long id, final Model model) {
+	@RequestMapping(value = PERSON_EDIT_URL + "{id}", method = RequestMethod.GET)
+	public String loadEdit(@PathVariable final Long id, final Model model) {
 		final Person person = service.findOne(id);
 		LOGGER.info("Find Person to Edit");
-		return addPerson(model, person);
+		return add(model, person);
 	}
 
 	@RequestMapping(value = PERSON_ADD_URL, method = RequestMethod.GET)
 	public String loadAdd(final Model model) {
 		LOGGER.info("Get Request to add");
-		return addPerson(model, new Person());
+		return add(model, new Person());
 	}
 
-	private String addPerson(final Model model, final Person person) {
+	private String add(final Model model, final Person person) {
 		model.addAttribute("person", person);
 		return "add";
 	}
 
-	@RequestMapping(value = { PERSON_ADD_URL, PERSON_URL + "{id}" }, method = RequestMethod.POST)
+	@RequestMapping(value = { PERSON_ADD_URL, PERSON_EDIT_URL + "{id}" }, method = RequestMethod.POST)
 	public String save(@Validated final Person person) {
 		LOGGER.info("Saving a person");
 		final Person persistedEntity = service.save(person);
@@ -61,18 +62,18 @@ public class PersonController {
 	}
 
 	@RequestMapping(value = PERSON_LIST_URL, method = RequestMethod.GET)
-	public String listPeople(final Model model) {
+	public String loadList(final Model model) {
 		LOGGER.info("List Person");
 		final Iterable<Person> people = service.findAll();
-		return listPeople(model, people);
+		return list(model, people);
 	}
 
 	@RequestMapping(value = PERSON_LIST_URL + "{filter}", method = RequestMethod.GET)
-	public String listPeople(@PathVariable final String filter, final Model model) {
+	public String filteredList(@PathVariable final String filter, final Model model) {
 		// TODO:Throw not implemented exception
 		LOGGER.info("Filtered List Person");
 		// TODO:Create filtered list
-		return listPeople(model, new Iterable<Person>() {
+		return list(model, new Iterable<Person>() {
 
 			@Override
 			public Iterator<Person> iterator() {
@@ -83,14 +84,28 @@ public class PersonController {
 	}
 
 	/**
-	 * Given a filtered or unfiltered list forwards to view
+	 * Given a filtered or unfiltered list and forwards to view
 	 * 
 	 * @param model
 	 * @param people
 	 * @return view name of list
 	 */
-	private String listPeople(final Model model, final Iterable<Person> people) {
+	private String list(final Model model, final Iterable<Person> people) {
 		model.addAttribute("personList", people);
 		return "list";
 	}
+
+	@RequestMapping(value = PERSON_DELETE_URL + "{id}", method = RequestMethod.GET)
+	public String deleteById(@PathVariable final Long id, final Model model) {
+		service.delete(id);
+		return REDIRECT + PERSON_LIST_URL;
+	}
+
+	@RequestMapping(value = PERSON_DETAIL_URL, method = RequestMethod.GET)
+	public String details(@PathVariable final Long id, final Model model) {
+		Person person = service.findOne(id);
+		model.addAttribute("person", person);
+		return "detail";
+	}
+
 }

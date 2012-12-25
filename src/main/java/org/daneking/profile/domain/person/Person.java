@@ -10,6 +10,10 @@ import javax.persistence.Id;
 @Entity
 public class Person implements Serializable {
 
+	public void setId(final Long id) {
+		this.id = id;
+	}
+
 	/**
 	 * 
 	 */
@@ -24,6 +28,15 @@ public class Person implements Serializable {
 
 	private String firstName;
 	private String lastName;
+	private String email;
+
+	public String getEmail() {
+		return email;
+	}
+
+	public void setEmail(final String email) {
+		this.email = email;
+	}
 
 	public String getFirstName() {
 		return firstName;

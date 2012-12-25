@@ -12,6 +12,7 @@ import org.junit.Test;
 import org.springframework.ui.ExtendedModelMap;
 
 public class PersonControllerTest {
+	private static final long MOCK_ID = 1L;
 	private PersonController controller;
 	private PersonService service;
 
@@ -19,12 +20,12 @@ public class PersonControllerTest {
 	public void setUp() throws Exception {
 		controller = new PersonController();
 		service = mock(PersonService.class);
+		controller.setService(service);
 	}
 
 	@Test
 	public void testloadAddGetRequestReturnsProfileView() {
-		ExtendedModelMap model = new ExtendedModelMap();
-		assertEquals("add", controller.loadAdd(model));
+		assertEquals("add", controller.loadAdd(new ExtendedModelMap()));
 
 	}
 
@@ -32,17 +33,14 @@ public class PersonControllerTest {
 	public void testSavePostRequestSavesPersonReturnsListView() {
 		final Person person = new Person();
 		when(service.save(person)).thenReturn(person);
-		controller.setService(service);
-		assertEquals("redirect:/person/list", controller.save(person));
+		assertEquals("redirect:/person/list/", controller.save(person));
 	}
 
 	@Test
 	public void testFailureToSaveThrowsError() {
-		final Person person = new Person();
 		boolean hasError = false;
-		controller.setService(service);
 		try {
-			controller.save(person);
+			controller.save(new Person());
 		} catch (IllegalArgumentException e) {
 			hasError = true;
 		}
@@ -51,23 +49,55 @@ public class PersonControllerTest {
 	}
 
 	@Test
-	public void testFindPersonReturnsAddView() {
-		controller.setService(service);
-		assertEquals("add", controller.findPerson(1L, new ExtendedModelMap()));
+	public void testFindReturnsAddView() {
+		assertEquals("add", controller.loadEdit(1L, new ExtendedModelMap()));
+	}
+
+	@Test
+	public void testLoadListAddsPersonToModel() {
+		ExtendedModelMap model = new ExtendedModelMap();
+		controller.loadEdit(MOCK_ID, model);
+		assertTrue(model.containsKey("person"));
 
 	}
 
 	@Test
-	public void testListGetRequestListView() {
-		controller.setService(service);
-		assertEquals("list", controller.listPeople(new ExtendedModelMap()));
+	public void testLoadListGetRequestListView() {
+		assertEquals("list", controller.loadList(new ExtendedModelMap()));
+
+	}
+
+	@Test
+	public void testLoadListAddsListToModel() {
+		ExtendedModelMap model = new ExtendedModelMap();
+		controller.loadList(model);
+		assertTrue(model.containsKey("personList"));
 
 	}
 
 	@Test
 	public void testFilterListReturnsListView() {
-		controller.setService(service);
-		assertEquals("list", controller.listPeople("filter", new ExtendedModelMap()));
+		assertEquals("list", controller.filteredList("filter", new ExtendedModelMap()));
+
+	}
+
+	@Test
+	public void testDeleteRedirectToListView() {
+		assertEquals("redirect:/person/list/", controller.deleteById(1L, new ExtendedModelMap()));
+
+	}
+
+	// Detail Tests
+	@Test
+	public void testDetailsReturnsDetailView() {
+		assertEquals("detail", controller.details(1L, new ExtendedModelMap()));
+	}
+
+	@Test
+	public void testDetailAddsPersonToModel() {
+		ExtendedModelMap model = new ExtendedModelMap();
+		controller.details(MOCK_ID, model);
+		assertTrue(model.containsKey("person"));
 
 	}
 

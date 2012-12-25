@@ -1,4 +1,3 @@
-
 package org.daneking.profile.repository;
 
 import org.daneking.profile.domain.person.Person;
