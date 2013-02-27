@@ -1,10 +1,7 @@
 package org.daneking.profile.common.aspects;
 
 import org.aspectj.lang.ProceedingJoinPoint;
-import org.aspectj.lang.annotation.Around;
 import org.aspectj.lang.annotation.Aspect;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Component;
 import org.springframework.util.StopWatch;
 
@@ -12,9 +9,9 @@ import org.springframework.util.StopWatch;
 @Aspect
 public class LoggingAspect {
 
-	private final Logger log = LoggerFactory.getLogger(this.getClass());
+	// private final Logger log = LoggerFactory.getLogger(this.getClass());
 
-	@Around("execution(* org.daneking..*.*(..))")
+	// @Around("execution(* org.daneking..*.*(..))")
 	public Object logTimeMethod(final ProceedingJoinPoint joinPoint) throws Throwable {
 
 		StopWatch stopWatch = new StopWatch();
@@ -42,7 +39,7 @@ public class LoggingAspect {
 		logMessage.append(" execution time: ");
 		logMessage.append(stopWatch.getTotalTimeMillis());
 		logMessage.append(" ms");
-		log.info(logMessage.toString());
+		// log.info(logMessage.toString());
 		return retVal;
 	}
 
