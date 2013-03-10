@@ -1,6 +1,7 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 
 <div>
+	<span>${person_added}</span>
 	<ol>
 		<c:forEach items="${personList}" var="person">
 			<li>

@@ -54,4 +54,8 @@ public class Person implements Serializable {
 		this.lastName = lastName;
 	}
 
+	public String getFullName() {
+		return getFirstName().concat(" ").concat(getLastName());
+	}
+
 }

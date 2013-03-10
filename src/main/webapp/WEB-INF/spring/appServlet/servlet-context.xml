@@ -10,8 +10,10 @@
 	<!-- DispatcherServlet Context: defines this servlet's request-processing infrastructure -->
 	
 	<!-- Enables the Spring MVC @Controller programming model -->
-	<context:component-scan base-package="org.daneking.profile.web.controller" />
 	<annotation-driven />
+	<context:component-scan base-package="org.daneking.profile.web" use-default-filters="false">
+	    <context:include-filter expression="org.springframework.stereotype.Controller" type="annotation" />
+	</context:component-scan>	
 
 	<!-- Handles HTTP GET requests for /resources/** by efficiently serving up static resources in the ${webappRoot}/resources directory -->
 	<resources mapping="/resources/**" location="/resources/" />

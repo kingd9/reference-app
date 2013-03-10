@@ -2,16 +2,21 @@ package org.daneking.profile.web.controller.person;
 
 import java.util.Iterator;
 
+import org.apache.commons.lang3.StringUtils;
 import org.daneking.profile.domain.person.Person;
 import org.daneking.profile.service.PersonService;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.util.Assert;
 import org.springframework.validation.annotation.Validated;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 @Controller
 public class PersonController {
@@ -21,8 +26,7 @@ public class PersonController {
 	private static final String PERSON_EDIT_URL = "/person/edit/";
 	private static final String PERSON_LIST_URL = "/person/list/";
 	private static final String PERSON_DELETE_URL = "/person/delete/";
-	// private static final Logger LOGGER =
-	// LoggerFactory.getLogger(PersonController.class);
+	private static final Logger LOGGER = LoggerFactory.getLogger(PersonController.class);
 
 	@Autowired
 	private PersonService service;
@@ -34,13 +38,13 @@ public class PersonController {
 	@RequestMapping(value = PERSON_EDIT_URL + "{id}", method = RequestMethod.GET)
 	public String loadEdit(@PathVariable final Long id, final Model model) {
 		final Person person = service.findOne(id);
-		// LOGGER.info("Find Person to Edit");
+		LOGGER.info("Find Person to Edit");
 		return add(model, person);
 	}
 
 	@RequestMapping(value = PERSON_ADD_URL, method = RequestMethod.GET)
 	public String loadAdd(final Model model) {
-		// LOGGER.info("Get Request to add");
+		LOGGER.info("Get Request to add");
 		return add(model, new Person());
 	}
 
@@ -50,19 +54,23 @@ public class PersonController {
 	}
 
 	@RequestMapping(value = { PERSON_ADD_URL, PERSON_EDIT_URL + "{id}" }, method = RequestMethod.POST)
-	public String save(@Validated final Person person) {
-		// LOGGER.info("Saving a person");
+	public String save(@Validated final Person person, final RedirectAttributes redirectAttributes) {
+		LOGGER.info("Saving a person");
 		final Person persistedEntity = service.save(person);
 		// Verify persons was saved
 		Assert.notNull(persistedEntity);
-		// LOGGER.info("Save Person");
+		redirectAttributes.addFlashAttribute("person_added", person.getFullName());
+		LOGGER.info("Save Person");
 		// Post Redirect Pattern to prevent double submits
 		return REDIRECT + PERSON_LIST_URL;
 	}
 
 	@RequestMapping(value = PERSON_LIST_URL, method = RequestMethod.GET)
-	public String loadList(final Model model) {
-		// LOGGER.info("List Person");
+	public String loadList(@ModelAttribute("person_added") final String person_added, final Model model) {
+		LOGGER.info("List Person");
+		if (StringUtils.isNotEmpty(person_added)) {
+			model.addAttribute("person_added", "Person Added: " + person_added);
+		}
 		final Iterable<Person> people = service.findAll();
 		return list(model, people);
 	}
@@ -70,7 +78,7 @@ public class PersonController {
 	@RequestMapping(value = PERSON_LIST_URL + "{filter}", method = RequestMethod.GET)
 	public String filteredList(@PathVariable final String filter, final Model model) {
 		// TODO:Throw not implemented exception
-		// LOGGER.info("Filtered List Person");
+		LOGGER.info("Filtered List Person");
 		// TODO:Create filtered list
 		return list(model, new Iterable<Person>() {
 
